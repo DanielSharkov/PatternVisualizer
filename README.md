@@ -2,6 +2,8 @@
 
 ## Get started
 
+Online version at https://danielsharkov.github.io/PatternVisualizer/
+
 ```bash
 npm run dev
 ```
