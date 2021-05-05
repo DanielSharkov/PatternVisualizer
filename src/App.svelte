@@ -116,7 +116,7 @@
 				day.isHoliday = true
 				day.holiday = holidays[dayIdx]
 			}
-			if (pattern.length > 0 && dayIdx >= patternStart && dayIdx <= patternEnd) {
+			if (pattern.length > 0 && dayIdx+1 >= patternStart && dayIdx < patternEnd) {
 				const patternDay = pattern[dayIdx % pattern.length]
 				if (patternDay.isGap) {
 					day.isGap = true
@@ -133,6 +133,12 @@
 </script>
 
 <style>
+	h1 {
+		font-size: 3rem;
+		font-weight: 400;
+		letter-spacing: .1rem;
+	}
+
 	main {
 		margin: auto;
 		max-width: 1200px;
@@ -147,6 +153,13 @@
 	}
 	.options > * {
 		margin: 0 .5rem .5rem 0;
+	}
+	.options .check-fields {
+		display: flex;
+		flex-flow: row wrap;
+	}
+	.options .check-fields >:not(:last-child) {
+		margin-right: 1rem;
 	}
 
 	.calendar {
@@ -166,7 +179,7 @@
 		align-items: center;
 		height: 3.325rem;
 		width: 3.325rem;
-		background-color: rgba(0, 0, 0, .025);
+		background-color: var(--pattern-bg);
 		font-size: .65rem;
 		cursor: default;
 		line-height: 1;
@@ -185,14 +198,14 @@
 		color: #fff;
 	}
 	.calendar .day.gap, .pattern .day.gap {
-		background-color: rgba(0, 0, 0, .015);
+		background-color: var(--pattern-bg);
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
 		background-size: .5rem;
 		color: #666;
 	}
 	.calendar .day.holiday,
 	.calendar .day.school-holiday {
-		background-color: #224;
+		background-color: var(--pattern-holiday-bg);
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
 		background-size: .5rem;
 	}
@@ -202,7 +215,6 @@
 		position: absolute;
 		left: auto;
 		bottom: calc(100% + .5rem);
-		width: max-content;
 		padding: .25rem .75rem;
 		background-color: #FFF;
 		box-shadow:
@@ -221,6 +233,10 @@
 		display: block;
 		line-height: 2;
 		box-sizing: border-box;
+		white-space: nowrap;
+	}
+	.calendar .day .tool-tip span:not(:last-child) {
+		border-bottom: solid 1px rgba(0,0,0, .1);
 	}
 	.calendar .day .tool-tip:after {
 		z-index: -1;
@@ -251,26 +267,26 @@
 		justify-content: center;
 		align-content: flex-start;
 		align-items: center;
-		background-color: rgba(0, 0, 0, .5);
+		background-color: var(--overlay-bg);
+		color: #000;
 		box-sizing: border-box;
 	}
 	.add-pattern-day-modal .modal {
 		display: grid;
-		padding: 1rem;
+		padding: 2rem;
 		min-width: 400px;
 		grid-gap: 1rem;
 		background-color: #FFF;
 		box-shadow:
 			0 0 1px rgba(0, 0, 0, .5),
 			0 10px 30px rgba(0, 0, 0, .5);
-		border-radius: 3px;
+		border-radius: 10px;
 		box-sizing: border-box;
 	}
 	.add-pattern-day-modal .color-preview {
 		border-radius: 3px;
-		margin-right: .5rem;
-		width: 2rem;
-		height: 2rem;
+		width: 2.5rem;
+		height: 2.5rem;
 		border: solid 1px rgba(0, 0, 0, .2);
 		box-sizing: border-box;
 	}
@@ -280,7 +296,33 @@
 		justify-content: space-between;
 		box-sizing: border-box;
 	}
+	.add-pattern-day-modal .actions button {
+		padding: .5rem 1rem;
+	}
+	.add-pattern-day-modal .actions button:last-child {
+		background-color: #05F;
+		color: #FFF;
+	}
+	.add-pattern-day-modal .actions button:last-child:hover {
+		background-color: #03C;
+		color: #FFF;
+	}
+	.add-pattern-day-modal button {
+		background-color: transparent;
+		border: solid 1px rgba(0,0,0, .2);
+	}
+	.add-pattern-day-modal button:hover {
+		background-color: rgba(0,0,0, .1);
+	}
 
+	.input-field .input-container {
+		display: grid;
+		width: 100%;
+		grid-template-columns: auto 1fr;
+		grid-gap: .5rem;
+		align-content: stretch;
+		align-items: stretch;
+	}
 	.input-field, .check-field {
 		display: flex;
 		flex-flow: row wrap;
@@ -289,10 +331,19 @@
 	.input-field .label {
 		flex: 1 1 100%;
 		margin-bottom: .25rem;
+		font-size: .65rem;
+		text-transform: uppercase;
+		font-weight: 600;
+		letter-spacing: .1rem;
 	}
 	.input-field input {
-		flex: 1 1 auto;
+		width: 100%;
+		height: 100%;
 		margin: 0;
+		flex: 1 1 auto;
+	}
+	.add-pattern-day-modal .input-field input {
+		cursor: pointer;
 	}
 
 	.check-field .checkbox {
@@ -333,7 +384,7 @@
 		min-height: 3.325rem;
 		margin: 2rem 0;
 		padding: 2rem 0;
-		border: solid rgba(0, 0, 0, .05);
+		border: solid var(--options-border);
 		border-width: 1px 0 1px 0;
 		flex-flow: row wrap;
 	}
@@ -366,7 +417,8 @@
 		height: 3.325rem;
 		width: 3.325rem;
 		padding: 0;
-		background-color: rgba(0, 0, 0, .05);
+		background-color: var(--pattern-bg);
+		color: var(--fg);
 		font-size: 3rem;
 		cursor: pointer;
 		line-height: 1;
@@ -376,8 +428,23 @@
 		border: none;
 	}
 	.pattern .add-day:hover {
-		background-color: #000;
-		color: #FFF;
+		background-color: var(--fg);
+		color: var(--bg);
+	}
+	.pattern .add-day svg {
+		transform: rotate(45deg);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.calendar .day.gap, .pattern .day.gap {
+			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+		}
+		.calendar .day .tool-tip {
+			box-shadow:
+				0 0 1px rgba(0,0,0, .5),
+				0 3px 6px rgba(0,0,0, .5),
+				0 20px 20px -12px rgba(0,0,0, .5);
+		}
 	}
 </style>
 
@@ -397,13 +464,15 @@
 			<span class='label'>Pattern end</span>
 			<input type='number' bind:value={ patternEnd }>
 		</div>
-		<div class='check-field' class:active={ complyHolidays } on:click={ toggleComplyHolidays }>
-			<div class='checkbox'/>
-			<span class='label'>Comply holidys</span>
-		</div>
-		<div class='check-field' class:active={ complySchoolHolidays } on:click={ toggleComplySchoolHolidays }>
-			<div class='checkbox'/>
-			<span class='label'>Comply school holidys</span>
+		<div class='check-fields'>
+			<div class='check-field' class:active={ complyHolidays } on:click={ toggleComplyHolidays }>
+				<div class='checkbox'/>
+				<span class='label'>Comply holidys</span>
+			</div>
+			<div class='check-field' class:active={ complySchoolHolidays } on:click={ toggleComplySchoolHolidays }>
+				<div class='checkbox'/>
+				<span class='label'>Comply school holidys</span>
+			</div>
 		</div>
 	</div>
 
@@ -486,11 +555,13 @@
 		<div class='modal'>
 			<div class='input-field'>
 				<span class='label'>Color</span>
-				<div
-					class='color-preview'
-					style='background-color: { colorInputValue };'
-				/>
-				<input type='color' bind:value={ colorInputValue }/>
+				<div class='input-container'>
+					<div
+						class='color-preview'
+						style='background-color: { colorInputValue };'
+					/>
+					<input type='color' bind:value={ colorInputValue }/>
+				</div>
 			</div>
 			<button on:click={ patternPushGap }>
 				Add as gap
