@@ -369,7 +369,7 @@
 		background-color: #50F;
 		opacity: 0;
 	}
-	.check-field:hover .checkbox {
+	.check-field:not(.active):hover .checkbox {
 		border-color: rgba(0, 0, 0, .5);
 	}
 	.check-field.active .checkbox {
@@ -436,6 +436,12 @@
 	}
 
 	@media (prefers-color-scheme: dark) {
+		.check-field .checkbox {
+			border: solid 1px rgba(255, 255, 255, .25);
+		}
+		.check-field:not(.active):hover .checkbox {
+			border-color: rgba(255, 255, 255, .75);
+		}
 		.calendar .day.gap, .pattern .day.gap {
 			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
 		}
