@@ -34,18 +34,14 @@ button
 	--font: #000
 	--tile-bg: rgba(#000, 0.025)
 	--overlay-bg: rgba(#fff, 0.9)
-	--tool-tip-shadow:\
-		drop-shadow(3px 3px 0 rgba(#000, 0.2)) \
-		drop-shadow(0 0 1px rgba(#000, 0.2))
+	--tool-tip-shadow: drop-shadow(3px 3px 0 rgba(#000, 0.2)) drop-shadow(0 0 1px rgba(#000, 0.2))
 	--modal-shadow: 10px 10px 0 rgba(#000, 0.25)
 	@media (prefers-color-scheme: dark)
 		--page-bg: #000
 		--font: #fff
 		--tile-bg: rgba(#fff, 0.05)
 		--overlay-bg: rgba(#000, 0.9)
-		--tool-tip-shadow:\
-			drop-shadow(3px 3px 0 rgba(#fff, 0.2)) \
-			drop-shadow(0 0 1px rgba(#fff, 0.2))
+		--tool-tip-shadow: drop-shadow(3px 3px 0 rgba(#fff, 0.2)) drop-shadow(0 0 1px rgba(#fff, 0.2))
 		--modal-shadow: 10px 10px 0 rgba(#fff, 0.15)
 
 #Title
@@ -181,9 +177,7 @@ main
 			@media (prefers-color-scheme: dark)
 				background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")
 			> span
-				text-shadow:\
-					0 0 2px var(--page-bg), 0 0 2px var(--page-bg),
-					0 0 2px var(--page-bg), 0 0 2px var(--page-bg)
+				text-shadow: 0 0 2px var(--page-bg), 0 0 2px var(--page-bg), 0 0 2px var(--page-bg), 0 0 2px var(--page-bg)
 		&.holiday
 			background-color: var(--font)
 			color: var(--page-bg)
@@ -254,9 +248,7 @@ main
 			@media (prefers-color-scheme: dark)
 				background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.08' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")
 			> span
-				text-shadow:\
-					0 0 2px var(--page-bg), 0 0 2px var(--page-bg),
-					0 0 2px var(--page-bg), 0 0 2px var(--page-bg)
+				text-shadow: 0 0 2px var(--page-bg), 0 0 2px var(--page-bg), 0 0 2px var(--page-bg), 0 0 2px var(--page-bg)
 		.delete
 			position: absolute
 			top: 0

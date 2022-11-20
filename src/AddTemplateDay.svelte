@@ -67,7 +67,7 @@ function addGap() {
 	</div>
 {/if}
 
-<style lang='stylus'>
+<style lang='sass'>
 .modal-container
 	z-index: 50
 	position: fixed

@@ -160,7 +160,7 @@ const templateLen = thePlanTpl.templateLength
 
 
 
-<style lang='stylus' global>@import './App.styl';</style>
+<style lang='sass' global src='./App.sass'></style>
 
 
 
